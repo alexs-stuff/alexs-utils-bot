@@ -61,7 +61,7 @@ client.on('interactionCreate', async (interaction) => {
             await interaction.reply({embeds: [unavaliableEmbed]});
             break;
         case 'ai-prompt':
-            if (bot_config.AI_SUPPORT == true) {
+            if (bot_config.AI_SUPPORT) {
             const prompt = interaction.options.get('prompt');
 
             let model = interaction.options.get('model');
