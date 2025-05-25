@@ -7,12 +7,13 @@ see the terrible coding i did here
 
 ## How to setup:
 
-Required dependencies: 
-<details>
-node.js, npm,  nodemon, A valid discord bot
-</details>
 
-<details>
+
+Required dependencies: 
+node.js, npm,  nodemon, A valid discord bot
+
+<details >
+ <summary><h2>How to Run</h2></summary>
 
 1. Run in a command prompt `npm install -g nodemon`
 2. Clone this repository
