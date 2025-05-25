@@ -68,7 +68,7 @@ client.on('interactionCreate', async (interaction) => {
 
 
             await interaction.deferReply();
-            await interaction.editReply('Generating..');
+            await interaction.editReply({embeds: [new EmbedBuilder().setDescription('Generating...').setColor('White')]});
             const response = await askAI(prompt.value, model.value);
 
             if (response.length >= 4000) {
@@ -81,7 +81,7 @@ client.on('interactionCreate', async (interaction) => {
                                     iconURL: interaction.user.avatarURL()
                             })
                             .setDescription(response)
-                            .setColor("#00b0f4")
+                            .setColor("Random")
                             .setFooter({
                                 text: `Model used: ${model.value} • Took 0.00s to generate`,
                             });
