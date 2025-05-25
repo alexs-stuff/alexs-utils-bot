@@ -1,0 +1,97 @@
+const {Client, IntentsBitField, EmbedBuilder, Colors} = require('discord.js');
+const dotenv = require('dotenv');
+const axios = require('axios');
+const registerCommands = require('./utils/registerCommands');
+
+dotenv.config();
+
+
+const client = new Client({
+    intents: [
+        IntentsBitField.Flags.Guilds,
+        IntentsBitField.Flags.GuildMembers,
+        IntentsBitField.Flags.GuildMessages,
+        IntentsBitField.Flags.MessageContent,
+    ]
+});
+
+
+client.once('ready', async () => {
+    await registerCommands(client);
+    console.log(`✅ | Logged in as ${client.user.tag}`);
+
+});
+
+
+const unavaliableEmbed = new EmbedBuilder().setColor('White').setTitle("Unavaliable Command").setDescription(`This command is unfinished right now.`);
+
+async function sanitizeMsg(text) {
+    text = text.replace(/<think>.*?<\/think>/gs, '');
+    text = text.replace(/everyone|@here/g, '[mention]');
+    text = text.replace(/<@!?(\d+)>/g, '[user]');
+    
+    return text.trim();
+}
+async function askAI(prompt, model) {
+    if (model.startsWith('gpt')) {
+        return await 'ChatGPT Models are not avaliable right now. as i dont have money for them';
+    }
+    
+    try {
+        const response = await axios.post(process.env.LLAMA_ADDRESS, {
+            model: model,
+            prompt: prompt,
+            stream: false,
+        });
+        return sanitizeMsg(response.data.response);
+    } catch (e) {
+        console.log(`Error occured\n${e}`)
+        return 'Failed to generate a response.';
+    }
+}
+client.on('interactionCreate', async (interaction) => {
+    if (!interaction.isCommand()) return;
+    switch (interaction.commandName) {
+        case 'ping':
+            const embedA = new EmbedBuilder().setColor('Blue').setTitle("Pong!").setDescription(`Latency: ${client.ws.ping}ms`);
+            await interaction.reply({embeds: [embedA]});
+            break;
+        case 'help':
+            await interaction.reply({embeds: [unavaliableEmbed]});
+            break;
+        case 'ai-prompt':
+            const prompt = interaction.options.get('prompt');
+
+            let model = interaction.options.get('model');
+            if (!model) model= {value: 'llama3.2'};
+
+
+
+            await interaction.deferReply();
+            await interaction.editReply('Generating..');
+            const response = await askAI(prompt.value, model.value);
+
+            if (response.length >= 4000) {
+                const buffer = Buffer.from(response, 'utf-8');
+                await interaction.editReply({content: '', files: [{attachment: buffer, name: `Response for ${interaction.user.username}.txt`}]})
+            } else {
+                const aiEmbed = new EmbedBuilder()
+                            .setAuthor({
+                                    name: `${interaction.user.username} asked: ${prompt.value}`,
+                                    iconURL: interaction.user.avatarURL()
+                            })
+                            .setDescription(response)
+                            .setColor("#00b0f4")
+                            .setFooter({
+                                text: `Model used: ${model.value} • Took 0.00s to generate`,
+                            });
+
+                await interaction.editReply({content: '', embeds: [aiEmbed]});
+            }
+   
+           break;
+    }
+
+});
+
+client.login(process.env.TOKEN);
