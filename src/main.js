@@ -1,4 +1,4 @@
-const {Client, IntentsBitField, EmbedBuilder, Colors} = require('discord.js');
+const {Client, IntentsBitField, EmbedBuilder, ButtonStyle, ButtonBuilder, ActionRowBuilder} = require('discord.js');
 const dotenv = require('dotenv');
 const axios = require('axios');
 const registerCommands = require('./utils/registerCommands');
@@ -53,8 +53,8 @@ client.on('interactionCreate', async (interaction) => {
     if (!interaction.isCommand()) return;
     switch (interaction.commandName) {
         case 'ping':
-            const embedA = new EmbedBuilder().setColor('Blue').setTitle("Pong!").setDescription(`Latency: ${client.ws.ping}ms`);
-            await interaction.reply({embeds: [embedA]});
+            const embed = new EmbedBuilder().setColor('Blue').setTitle("Pong!").setDescription(`Latency: ${client.ws.ping}ms`);
+            await interaction.reply({embeds: [embed]});
             break;
         case 'help':
             await interaction.reply({embeds: [unavaliableEmbed]});
@@ -75,7 +75,7 @@ client.on('interactionCreate', async (interaction) => {
                 const buffer = Buffer.from(response, 'utf-8');
                 await interaction.editReply({content: '', files: [{attachment: buffer, name: `Response for ${interaction.user.username}.txt`}]})
             } else {
-                const aiEmbed = new EmbedBuilder()
+                const embed = new EmbedBuilder()
                             .setAuthor({
                                     name: `${interaction.user.username} asked: ${prompt.value}`,
                                     iconURL: interaction.user.avatarURL()
@@ -83,10 +83,17 @@ client.on('interactionCreate', async (interaction) => {
                             .setDescription(response)
                             .setColor("Random")
                             .setFooter({
-                                text: `Model used: ${model.value} • Took 0.00s to generate`,
+                                text: `Model used: ${model.value} • Took 0.00s to generate • Page 0/0`,
                             });
 
-                await interaction.editReply({content: '', embeds: [aiEmbed]});
+                const aiLeft = new ButtonBuilder().setCustomId('pageLeft').setLabel('⬅️').setStyle(ButtonStyle.Primary).setDisabled(true);
+                const aiRight = new ButtonBuilder().setCustomId('pageRight').setLabel('➡️').setStyle(ButtonStyle.Primary).setDisabled(true);
+
+                const buttons = new ActionRowBuilder().addComponents(aiLeft, aiRight);
+                await interaction.editReply({
+                    content: '', 
+                    embeds: [embed], 
+                    components: [buttons]});
             }
    
            break;
