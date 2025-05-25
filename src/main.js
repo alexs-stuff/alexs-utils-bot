@@ -1,4 +1,5 @@
 const {Client, IntentsBitField, EmbedBuilder, ButtonStyle, ButtonBuilder, ActionRowBuilder} = require('discord.js');
+const bot_config =  require('../config.json');
 const dotenv = require('dotenv');
 const axios = require('axios');
 const registerCommands = require('./utils/registerCommands');
@@ -60,6 +61,7 @@ client.on('interactionCreate', async (interaction) => {
             await interaction.reply({embeds: [unavaliableEmbed]});
             break;
         case 'ai-prompt':
+            if (bot_config.AI_SUPPORT == true) {
             const prompt = interaction.options.get('prompt');
 
             let model = interaction.options.get('model');
@@ -96,8 +98,12 @@ client.on('interactionCreate', async (interaction) => {
                     components: [buttons]});
             }
    
+            } else {
+                await interaction.reply('AI is not avaliable')
+            }
+            
            break;
-    }
+        }
 
 });
 
