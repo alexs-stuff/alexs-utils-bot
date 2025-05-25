@@ -31,4 +31,4 @@ LLAMA_ADDRESS = IP AND PORT WHERE YOUR LLAMA INSTANCE IS HOSTED ON
 6. After that, run `nodemon` then the bot should start
 7. You're done!
 </details>
-If you get any errors, please contact me at `alexsroblox123@gmail.com` or via discord at `al_ex427`
+If you get any errors, please contact me at [alexsroblox123@gmail.com] or via discord at [al_ex427]
