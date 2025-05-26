@@ -1,9 +1,11 @@
 const {Client, IntentsBitField, EmbedBuilder, ButtonStyle, ButtonBuilder, ActionRowBuilder} = require('discord.js');
-const bot_config =  require('../config.json');
+const moongose = require('mongoose');
+
 const dotenv = require('dotenv');
 const axios = require('axios');
-const registerCommands = require('./utils/registerCommands');
 
+const registerCommands = require('./utils/registerCommands');
+const bot_config =  require('../config.json');
 dotenv.config();
 
 
@@ -17,7 +19,15 @@ const client = new Client({
 });
 
 
+
 client.once('ready', async () => {
+    console.log('⌚ | Trying to load Mongoose..');
+ /*   try {
+        moongose.connect
+    } catch (e) {
+        console.error(`❌ | Failed to connect/setup to Mongoose: ${e}`);
+        return;
+    } */
     await registerCommands(client);
     console.log(`✅ | Logged in as ${client.user.tag}`);
 

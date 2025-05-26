@@ -35,6 +35,11 @@ const commands = [
             }
             
         ]
+    },
+    {
+        name: 'reset-ai-data',
+        description:'Resets all saved data you sent to the AI',
+        contexts: [InteractionContextType.Guild, InteractionContextType.BotDM, InteractionContextType.PrivateChannel],
     }
 ]
 
