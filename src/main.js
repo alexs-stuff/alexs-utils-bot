@@ -68,15 +68,18 @@ client.on('interactionCreate', async (interaction) => {
             if (!model) model= {value: 'llama3.2'};
 
 
-
+         
             await interaction.deferReply();
             await interaction.editReply({embeds: [new EmbedBuilder().setDescription('Generating...').setColor('White')]});
+
+            const timestampGenerate = Date.now();
             const response = await askAI(prompt.value, model.value);
 
             if (response.length >= 4000) {
                 const buffer = Buffer.from(response, 'utf-8');
                 await interaction.editReply({content: '', files: [{attachment: buffer, name: `Response for ${interaction.user.username}.txt`}]})
             } else {
+                const timestamp = Date.now() - timestampGenerate;
                 const embed = new EmbedBuilder()
                             .setAuthor({
                                     name: `${interaction.user.username} asked: ${prompt.value}`,
@@ -85,13 +88,15 @@ client.on('interactionCreate', async (interaction) => {
                             .setDescription(response)
                             .setColor("Random")
                             .setFooter({
-                                text: `Model used: ${model.value} • Took 0.00s to generate • Page 0/0`,
+                                text: `Model used: ${model.value} • Took ${(timestamp / 1000).toFixed(2)}s to generate • Page 0/0`,
                             });
 
                 const aiLeft = new ButtonBuilder().setCustomId('pageLeft').setLabel('⬅️').setStyle(ButtonStyle.Primary).setDisabled(true);
                 const aiRight = new ButtonBuilder().setCustomId('pageRight').setLabel('➡️').setStyle(ButtonStyle.Primary).setDisabled(true);
+                const thought = new ButtonBuilder().setCustomId('pageThink').setLabel('Bot Thinking').setStyle(ButtonStyle.Secondary).setDisabled(true);
 
-                const buttons = new ActionRowBuilder().addComponents(aiLeft, aiRight);
+                const buttons = new ActionRowBuilder().addComponents(aiLeft, aiRight, thought);
+
                 await interaction.editReply({
                     content: '', 
                     embeds: [embed], 
@@ -99,7 +104,7 @@ client.on('interactionCreate', async (interaction) => {
             }
    
             } else {
-                await interaction.reply('AI is not avaliable')
+                await interaction.reply({content: 'AI is not avaliable', ephemeral: true});
             }
             
            break;
