@@ -54,7 +54,7 @@ client.on('interactionCreate', async (interaction) => {
     if (!interaction.isCommand()) return;
     switch (interaction.commandName) {
         case 'ping':
-            const embed = new EmbedBuilder().setColor('Blue').setTitle("Pong!").setDescription(`Latency: ${client.ws.ping}ms`);
+            const embed = new EmbedBuilder().setColor('Blue').setTitle("Pong!").setDescription(`Latency: ${client.ws.ping}ms\nUptime: ${Math.floor(client.uptime / 1000)}s`);
             await interaction.reply({embeds: [embed]});
             break;
         case 'help':
