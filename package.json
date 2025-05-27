@@ -1,21 +1,31 @@
 {
   "name": "alexs-utils",
-  "version": "0.3.1",
-  "description": "",
-  "main": "src/main.js",
+  "version": "0.1.0-ts",
+  "description": "this is the source code for my bot,\r see the terrible coding i did here",
+  "main": "src/main.ts",
   "scripts": {
+    "dev": "tsx watch src/main.ts",
+    "start": "node dist/inmaindex.js",
+    "build": "tsup src/main.ts --minify",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexs-stuff/alexs-utils-bot.git"
+  },
+  "author": "al-ex427",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/alexs-stuff/alexs-utils-bot/issues"
+  },
+  "homepage": "https://github.com/alexs-stuff/alexs-utils-bot#readme",
   "dependencies": {
-    "axios": "^1.9.0",
     "discord.js": "^14.19.3",
-    "dotenv": "^16.5.0",
-    "mongodb": "^6.16.0",
-    "mongoose": "^8.15.0",
-    "mongose": "^0.0.2-security"
+    "dotenv": "^16.5.0"
+  },
+  "devDependencies": {
+    "tsup": "^8.5.0",
+    "tsx": "^4.19.4",
+    "typescript": "^5.8.3"
   }
 }
