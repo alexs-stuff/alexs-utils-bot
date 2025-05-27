@@ -28,6 +28,7 @@ const commands = [
                 type: ApplicationCommandOptionType.String,
                 choices: [
                     {name: 'Deepseek R1', value: 'deepseek-r1'},
+                    {name: 'Llama 2 Uncensored', value: 'llama2-uncensored'},
                     {name: 'Llama 3.2', value: 'llama3.2'},
                     {name: 'GPT 4o-mini', value: 'gpt-4o-mini'}
 
