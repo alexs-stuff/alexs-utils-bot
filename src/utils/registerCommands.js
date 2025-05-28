@@ -1,5 +1,9 @@
 const { REST, Routes, InteractionContextType, ApplicationCommandOptionType } = require('discord.js');
 
+const dotenv = require('dotenv');
+const axios = require('axios');
+const { model } = require('mongoose');
+
 const commands = [
     {
         name: 'ping',
@@ -30,7 +34,7 @@ const commands = [
                     {name: 'Deepseek R1', value: 'deepseek-r1'},
                     {name: 'Llama 2 Uncensored', value: 'llama2-uncensored'},
                     {name: 'Llama 3.2', value: 'llama3.2'},
-                    {name: 'GPT 4o-mini', value: 'gpt-4o-mini'}
+                    {name: 'GPT 4o', value: 'gpt-4o'}
 
                 ]
             }
@@ -44,19 +48,28 @@ const commands = [
     }
 ]
 
+async function getAiModels() {
+    
+    try {
+        const response = await axios.get(process.env.LLAMA_ADDRESS + '/tags');
 
+    } catch (e) {
+        console.log(`Error occured\n${e}`)
+        return '';
+    }
+}
 
 
 module.exports = async (client) => {
     const rest = new REST({ version: '10' }).setToken(client.token);
-
+    getAiModels();
     try {
-        console.log('Started refreshing/registering application commands.');
+        console.log('⌚ | Started refreshing/registering application commands.');
 
         await rest.put(Routes.applicationCommands(process.env.CLIENT_ID), {body: commands});
-        console.log('Successfully reloaded/registerd application commands.');
+        console.log('✅ | Successfully reloaded/registerd application commands.');
     } catch (error) {
-        console.error(`Error occured: ${error}`);
+        console.error(`❌ | Error occured: ${error}`);
     }
     
 }
