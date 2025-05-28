@@ -20,4 +20,4 @@ node.js, npm, A valid discord bot
 3. In the `.env` file use `.env.example` as an example of what `.env` should have
 4. After you're finished, run `npm run dev` then it should start
 </details>
-If you get any errors, please contact me at [alexsroblox123@gmail.com] or via discord at [al_ex427]
+If you get any errors, please contact me at support@alex427.com
