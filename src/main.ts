@@ -1,6 +1,6 @@
 import {Client, IntentsBitField} from 'discord.js';
 import { config } from './config/config';
-import {} from './events/RegisterCommands';
+import { Logger, LoggerSeverityType } from './events/Logger';
 
 console.log(`
 ══════════════════════════════════════════
@@ -18,8 +18,9 @@ const client = new Client({
 });
 
 client.on('ready', async () => {
-    console.log(`✅ | Successfully logged into bot (${client.user?.tag})`);
-    
+    Logger.log(LoggerSeverityType.None, "Client logged in successfully");
+    //Logger.log(LoggerSeverityType.Warning, "This is a warning");
+    //Logger.log(LoggerSeverityType.Error, "This is an error");
 });
 
 
