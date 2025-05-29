@@ -1,11 +1,12 @@
 import {Client, IntentsBitField} from 'discord.js';
 import { config } from './config/config';
 import { Logger, LoggerSeverityType } from './events/Logger';
+import RegisterCommands from './events/RegisterCommands';
 
 console.log(`
-══════════════════════════════════════════
-              ALEX'S UTILS
-══════════════════════════════════════════
+^══════════════════════════════════════════^
+^            ALEX'S UTILS [TS]             ^
+^══════════════════════════════════════════^
 `);
 
 const client = new Client({
@@ -18,11 +19,16 @@ const client = new Client({
 });
 
 client.on('ready', async () => {
-    Logger.log(LoggerSeverityType.None, "Client logged in successfully");
-    //Logger.log(LoggerSeverityType.Warning, "This is a warning");
-    //Logger.log(LoggerSeverityType.Error, "This is an error");
+    RegisterCommands();
+    
+    Logger.log("Client logged in successfully");
+    
 });
 
+client.on('interactionCreate', async(interaction) => {
+    if (!interaction.isCommand()) return;
+    Logger.log(`${interaction.user.tag} ran ${interaction.commandName}`);
+})
 
 client.login(config.TOKEN);
 

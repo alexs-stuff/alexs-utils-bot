@@ -1,6 +1,8 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import chalk from 'chalk';
+import { config } from '../config/config';
+
 /*
   How this works
   when for example:
@@ -20,10 +22,10 @@ export class Logger {
      * @param loggerTxt Thing to log
      */
     
-    static log(severity:LoggerSeverityType, loggerTxt:String) {
+    static log(loggerTxt:any, severity:LoggerSeverityType = LoggerSeverityType.None) {
         let sev = '';
         let text = '';
-        //I AM NOT MAKING SWITCH STATEMENTS TO LOG ERRORS AND WARNING, HECK YOU
+        
         switch (severity) {
             case LoggerSeverityType.None: 
                 sev = chalk.blue('[LOGGER]');
@@ -40,12 +42,10 @@ export class Logger {
         }
 
         
-        //whatever works
-        console.log(`[${new Date(Date.now()).toLocaleTimeString()} @ ${new Date(Date.now()).toLocaleDateString()}] ${sev} ${text}`)
-    }
-
-    static saveLogs() {
-        const location:String = path.join(__dirname, '');
+        if (config.conf.LOGGING) {
+            console.log(`[${new Date(Date.now()).toLocaleTimeString()} @ ${new Date(Date.now()).toLocaleDateString()}] ${sev} ${text}`)
+        }
+        
     }
 }
 
