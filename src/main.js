@@ -1,9 +1,9 @@
 const {Client, IntentsBitField, EmbedBuilder, ButtonStyle, ButtonBuilder, ActionRowBuilder} = require('discord.js');
-//const moongose = require('mongoose');
+const moongose = require('mongoose');
 
 const dotenv = require('dotenv');
 const axios = require('axios');
-const openAI = require('openai');
+const OpenAI = require('openai');
 
 const registerCommands = require('./utils/registerCommands');
 const bot_config =  require('../config.json');
@@ -19,17 +19,19 @@ const client = new Client({
     ]
 });
 
+//const gptCLIENT = new OpenAI({ apiKey: process.env.OPENAI_APIKEY});
 
 
 client.once('ready', async () => {
     console.log('⌚ | Trying to load Mongoose..');
- /*   try {
-        moongose.connect
+    try {
+        moongose.connect(process.env.MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true });
+        console.log('✅ | Successfully connected to Moongoose/MongoDB..')
     } catch (e) {
         console.error(`❌ | Failed to connect/setup to Mongoose: ${e}`);
         return;
-    } */
-    await registerCommands(client);
+    } 
+    registerCommands(client);
     console.log(`✅ | Logged in as ${client.user.tag}`);
 
 });
@@ -64,11 +66,12 @@ async function askAI(prompt, model) {
 
 function shorten(text) {
     if (text.length >= 64) {
-        return 'Something (Over limit)'
+        return 'Something (Over limit 64char limit)'
     } else {
         return text;
     }
-}
+}   
+
 
 client.on('interactionCreate', async (interaction) => {
     if (!interaction.isCommand()) return;

@@ -31,7 +31,8 @@ const commands = [
                 description: 'AI Model',
                 type: ApplicationCommandOptionType.String,
                 choices: [
-                    {name: 'Deepseek R1', value: 'deepseek-r1'},
+                    {name: 'Deepseek R1 (Latest)', value: 'deepseek-r1:latest'},
+                //    {name: 'Deepseek R1 (70B)', value: 'deepseek-r1:70b'},
                     {name: 'Llama 2 Uncensored', value: 'llama2-uncensored'},
                     {name: 'Llama 3.2', value: 'llama3.2'},
                     {name: 'GPT 4o', value: 'gpt-4o'}
@@ -52,19 +53,19 @@ async function getAiModels() {
     
     try {
         const response = await axios.get(process.env.LLAMA_ADDRESS + '/tags');
-
+        
     } catch (e) {
         console.log(`Error occured\n${e}`)
         return '';
     }
-}
+}   
 
 
 module.exports = async (client) => {
     const rest = new REST({ version: '10' }).setToken(client.token);
     getAiModels();
     try {
-        console.log('⌚ | Started refreshing/registering application commands.');
+        console.log('⌚ |   Started refreshing/registering application commands.');
 
         await rest.put(Routes.applicationCommands(process.env.CLIENT_ID), {body: commands});
         console.log('✅ | Successfully reloaded/registerd application commands.');
