@@ -22,7 +22,7 @@ export class Logger {
      * @param loggerTxt Thing to log
      */
     
-    static log(loggerTxt:any, severity:LoggerSeverityType = LoggerSeverityType.None) {
+    static log(loggerTxt:any, severity:LoggerSeverityType = LoggerSeverityType.None, result:LoggerResultType = LoggerResultType.None) {
         let sev = '';
         let text = '';
         
@@ -47,10 +47,17 @@ export class Logger {
         }
         
     }
+
 }
 
 export enum LoggerSeverityType {
     None,
     Warning,
     Error
+}
+
+export enum LoggerResultType {
+    None, 
+    Success, 
+    Fail
 }

@@ -1,4 +1,5 @@
 {
     "AI_SUPPORT": true,
-    "LOGGING": true
+    "LOGGING": true,
+    "DEBUGGING": false
 }
