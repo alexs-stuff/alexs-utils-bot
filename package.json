@@ -5,7 +5,7 @@
   "main": "src/main.ts",
   "scripts": {
     "dev": "tsx watch src/main.ts",
-    "start": "node dist/inmaindex.js",
+    "start": "node dist/main.js",
     "build": "tsup src/main.ts --minify",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -22,6 +22,7 @@
   "dependencies": {
     "chalk": "^5.4.1",
     "discord.js": "^14.19.3",
+    "discordx": "^11.12.4",
     "dotenv": "^16.5.0",
     "mongodb": "^6.16.0",
     "mongoose": "^8.15.1"

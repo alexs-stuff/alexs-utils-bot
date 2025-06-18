@@ -42,9 +42,9 @@ export class Logger {
         }
 
         
-        if (config.conf.LOGGING) {
+      //  if (config.json.LOGGING) {
             console.log(`[${new Date(Date.now()).toLocaleTimeString()} @ ${new Date(Date.now()).toLocaleDateString()}] ${sev} ${text}`)
-        }
+       // }
         
     }
 

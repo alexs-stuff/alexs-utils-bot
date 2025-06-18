@@ -1,12 +1,12 @@
-import { Client, Embed, EmbedBuilder, Interaction, InteractionContextType} from "discord.js";
+import { Client, Embed, EmbedBuilder, Interaction} from "discord.js";
 import { config } from "../../config/config";
 
 export default {
 	name: 'ping',
 	description: 'See the latency of the bot',
-	onCallback: async function(client:Client,interaction:any) {
+	onCallback: async function(client:Client,interaction:Interaction) {
+		if (!interaction.isChatInputCommand()) return;
 		await interaction.deferReply();
-		
 		interaction.editReply({
 			embeds: [
 				new EmbedBuilder()
@@ -18,5 +18,5 @@ export default {
 	},
 	options: [],
 	permissions: [],
-	contexts: [InteractionContextType.PrivateChannel, InteractionContextType.BotDM, InteractionContextType.Guild],
+	contexts: [],
 }

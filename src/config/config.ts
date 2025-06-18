@@ -1,12 +1,13 @@
 import dotenv from 'dotenv';
 import * as json from '../../config.json';
-
+import * as pkg from '../../package.json';
 dotenv.config();
 
 
 
 export const config = {
     json,
+    pkg,
     TOKEN: process.env.TOKEN,
     CLIENT_ID: process.env.CLIENT_ID,
     LLAMA_ADDRESS: process.env.LLAMA_ADDRESS,
